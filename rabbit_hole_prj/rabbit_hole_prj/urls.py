@@ -15,6 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
@@ -25,3 +29,6 @@ urlpatterns = [
     path('api/rabbit_holes/', include('rabbit_holes.urls')),
     path('api/solutions/', include('solutions.urls')),
 ]
+
+# Allows use of working with the media folder locally
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
