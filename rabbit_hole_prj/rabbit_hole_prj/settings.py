@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'projects',
     'rabbit_holes',
+    'solutions',
 ]
 
 MIDDLEWARE = [

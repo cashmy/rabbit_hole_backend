@@ -4,8 +4,8 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Rabbit_Hole(models.Model):
-    project = models.ForeignKey(Project, related_name='rabbit_holes', on_delete=models.CASCADE)
-    log_type = models.CharField(max_length=10, verbose_name=_('Log Type'))
+    project = models.ForeignKey(Project, related_name='projects', on_delete=models.CASCADE)
+    log_type = models.CharField(max_length=10, verbose_name=_('Log Type')) # d=distraction, i=impediment, t=task
     name = models.CharField(max_length=50, verbose_name=_('name'))
     description = models.TextField(verbose_name=_('description'), blank=True)
     rating = models.IntegerField(default=0, verbose_name=_('rating'))
