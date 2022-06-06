@@ -10,6 +10,7 @@ class Rabbit_Hole(models.Model):
     description = models.TextField(verbose_name=_('description'), blank=True)
     rating = models.IntegerField(default=0, verbose_name=_('rating'))
     solution = models.BooleanField(default=False, verbose_name=_('solution'))
+    completed = models.BooleanField(default=False, verbose_name=_('completed'))
     archived = models.BooleanField(default=False, verbose_name=_('archived'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
