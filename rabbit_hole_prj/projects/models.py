@@ -1,9 +1,11 @@
 from django.db import models
 from images.models import Image
+from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Project(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=50, verbose_name=_('name'))
     abbreviation = models.CharField(max_length=10, verbose_name=_('abbreviation'), blank=True)
     description = models.TextField(verbose_name=_('description'), blank=True)

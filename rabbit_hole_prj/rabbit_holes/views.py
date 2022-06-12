@@ -1,13 +1,15 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from .models import Rabbit_Hole
 from .serializers import Rabbit_HoleSerializer
 
 # Create your views here.
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def rabbit_holes_all_list(request):
     if request.method == "GET":
         rabbit_holes= Rabbit_Hole.objects.all()
@@ -15,6 +17,7 @@ def rabbit_holes_all_list(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([AllowAny])
 def rabbit_hole_detail(request, pk):
     rabbit_hole = get_object_or_404(Rabbit_Hole, pk=pk)
     print(request.data)
