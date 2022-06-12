@@ -1,15 +1,16 @@
 from django.db import models
 from images.models import Image
-from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Project(models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=50, verbose_name=_('name'))
     abbreviation = models.CharField(max_length=10, verbose_name=_('abbreviation'), blank=True)
     description = models.TextField(verbose_name=_('description'), blank=True)
-    owner = models.ForeignKey('auth.User', related_name='projects', on_delete=models.CASCADE)
+    user = models.ForeignKey('auth.User', 
+                             on_delete=models.CASCADE, 
+                             blank=True, 
+                             null=True)
     text_color = models.CharField(max_length=50, verbose_name=_('text color'), default='#000000')     # white
     theme_color = models.CharField(max_length=50, verbose_name=_('theme color'), default='#00a2ed')   # blue
     image = models.ForeignKey(Image, on_delete=models.CASCADE, blank=True, null=True)
@@ -20,7 +21,7 @@ class Project(models.Model):
     class Meta:
         verbose_name = _('Project')
         verbose_name_plural = _('Projects')
-        ordering = ('-created_at',)
+        ordering = ('-name',)
     
     def __str__(self):
         return self.name

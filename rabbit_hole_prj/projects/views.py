@@ -6,23 +6,28 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from .models import Project
 from .serializers import ProjectSerializer
+# from django.contrib.auth.models import User
 
 # Create your views here.
 @api_view(['GET', 'POST'])
-@permission_classes([AllowAny])
+# @permission_classes([AllowAny])
 def projects_list(request):
     if request.method == "GET":
+        print('User(Owner) ', f"{request.user.id} {request.user.email} {request.user.username}")
         projects= Project.objects.filter(user=request.user)
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == "POST":
-        print(request.data) # Log the data for debugging
+        print(">>>>> Incoming data: ", f"{request.data}") # Log the data for debugging
+        # projects = request.data
+        # projects["user_id"] = request.user.id
         serializer = ProjectSerializer(data = request.data)
         if serializer.is_valid():
+            print ("<<< Serializer data: ", f"{serializer.validated_data}")
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-    return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([AllowAny])
@@ -41,3 +46,10 @@ def project_detail(request, pk):
     elif request.method == 'DELETE':
         project.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['GET'])    
+def projects_admin_list(request):
+    if request.method == "GET":
+        projects= Project.objects.all()
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

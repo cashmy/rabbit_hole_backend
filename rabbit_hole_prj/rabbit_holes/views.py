@@ -44,7 +44,8 @@ def rabbit_holes_list(request, project_id):
         print(request.data) # Log the data for debugging
         serializer = Rabbit_HoleSerializer(data = request.data)
         if serializer.is_valid():
-            serializer.save()
+            print ("<<< Serializer data: ", f"{serializer.validated_data}")
+            # serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_200_OK)
