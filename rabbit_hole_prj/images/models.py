@@ -13,7 +13,7 @@ class Image(models.Model):
     file_name = models.ImageField(_("File Name"), upload_to=upload_to, default="images/No_image.png", max_length=255)
     alt_text = models.CharField(_("Alt Text"), max_length=50, blank=True)
     url = models.URLField(_("URL"), max_length=200, blank=True)
-    mimeType = models.CharField(_("Mime Type"), max_length=255)
+    mime_type = models.CharField(_("Mime Type"), max_length=25)
     width = models.IntegerField(_("Width"), blank=True, null=True)
     height = models.IntegerField(_("Height"), blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

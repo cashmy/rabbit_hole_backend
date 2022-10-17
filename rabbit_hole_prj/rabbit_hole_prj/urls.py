@@ -27,6 +27,8 @@ urlpatterns = [
     path('api/projects/', include('projects.urls')),
     path('api/rabbit_holes/', include('rabbit_holes.urls')),
     path('api/solutions/', include('solutions.urls')),
+    path('api/images/', include('images.urls')),
+    path('media/images/', include('images.media_urls'))
 ]
 
 # Allows use of working with the media folder locally

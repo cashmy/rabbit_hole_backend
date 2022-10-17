@@ -31,6 +31,7 @@ def image_detail(request, pk):
     print(request.data)
     if request.method == 'GET':
         serializer = ImageSerializer(image)
+        print("Data", serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'PUT':
         serializer = ImageSerializer(image, data = request.data)
@@ -41,3 +42,17 @@ def image_detail(request, pk):
     elif request.method == 'DELETE':
         image.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def image_file(request, file):
+    print("\n\nRequest: ", request)
+    print("file: ", file)
+    image = Image.objects.filter(file_name__endswith=file)
+    print(len(image))
+    print("Media result: ",image)
+    if request.method == 'GET':
+        serializer = ImageSerializer(image, many=True)
+        print("Data", serializer.data)
+        
+    return Response(serializer.data, status=status.HTTP_200_OK)

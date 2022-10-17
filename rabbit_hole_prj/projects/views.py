@@ -29,7 +29,7 @@ def projects_list(request):
         else:
             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
 @permission_classes([AllowAny])
 def project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
@@ -46,6 +46,12 @@ def project_detail(request, pk):
     elif request.method == 'DELETE':
         project.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    elif request.method == 'PATCH':
+        serializer = ProjectSerializer(project, data= request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['GET'])    
 def projects_admin_list(request):
