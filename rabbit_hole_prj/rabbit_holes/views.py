@@ -59,7 +59,7 @@ def rabbit_holes_list(request, project_id):
         serializer = Rabbit_HoleSerializer(data = request.data)
         if serializer.is_valid():
             print ("<<< Serializer data: ", f"{serializer.validated_data}")
-            # serializer.save()
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_200_OK)
