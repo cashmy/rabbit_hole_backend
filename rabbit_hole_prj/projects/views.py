@@ -27,6 +27,7 @@ def projects_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
+            print("\n\nSerializer Error(s): ", f"{serializer.errors}")
             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
@@ -57,5 +58,20 @@ def project_detail(request, pk):
 def projects_admin_list(request):
     if request.method == "GET":
         projects= Project.objects.all()
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+@api_view(['GET'])
+# @permission_classes([AllowAny])
+def projects_archive(request, sts):
+    # Convert incoming "boolean" value as string into correct casing representation
+    if sts == "true":
+        sts = "True"
+    else: sts = "False"
+    
+    print(">>>>> Archive Request data: ", f"{request.data} {sts}" )
+    # print('User(Owner) ', f"{request.user.id} {request.user.email} {request.user.username}")
+    if request.method == "GET":
+        projects= Project.objects.filter(archived=sts)
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+/rabbit_hole_prj/media
+/documents/savedImages
