@@ -13,17 +13,12 @@ from .serializers import ProjectSerializer
 # @permission_classes([AllowAny])
 def projects_list(request):
     if request.method == "GET":
-        print('User(Owner) ', f"{request.user.id} {request.user.email} {request.user.username}")
-        projects= Project.objects.filter(user=request.user)
+        projects= Project.objects.filter(user=request.user).order_by('-abbreviation')
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == "POST":
-        print(">>>>> Incoming data: ", f"{request.data}") # Log the data for debugging
-        # projects = request.data
-        # projects["user_id"] = request.user.id
         serializer = ProjectSerializer(data = request.data)
         if serializer.is_valid():
-            print ("<<< Serializer data: ", f"{serializer.validated_data}")
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
@@ -34,16 +29,17 @@ def projects_list(request):
 @permission_classes([AllowAny])
 def project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
-    print(request.data)
     if request.method == 'GET':
         serializer = ProjectSerializer(project)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'PUT':
         serializer = ProjectSerializer(project, data = request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print("\n\nSerializer Error(s): ", f"{serializer.errors}")
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         project.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -52,7 +48,9 @@ def project_detail(request, pk):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print("\n\nSerializer Error(s): ", f"{serializer.errors}")
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['GET'])    
 def projects_admin_list(request):
@@ -68,10 +66,7 @@ def projects_archive(request, sts):
     if sts == "true":
         sts = "True"
     else: sts = "False"
-    
-    print(">>>>> Archive Request data: ", f"{request.data} {sts}" )
-    # print('User(Owner) ', f"{request.user.id} {request.user.email} {request.user.username}")
     if request.method == "GET":
-        projects= Project.objects.filter(archived=sts)
+        projects= Project.objects.filter(archived=sts).order_by('abbreviation')
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

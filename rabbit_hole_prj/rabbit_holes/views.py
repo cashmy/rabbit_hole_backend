@@ -33,7 +33,9 @@ def rabbit_hole_detail(request, pk):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print("\n\nSerializer Error(s): ", f"{serializer.errors}")
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
         rabbit_hole.delete()
@@ -46,7 +48,9 @@ def rabbit_hole_detail(request, pk):
             print("Patch is valid")
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print("\n\nSerializer Error(s): ", f"{serializer.errors}")
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['GET', 'POST'])
 def rabbit_holes_list(request, project_id):
@@ -61,5 +65,7 @@ def rabbit_holes_list(request, project_id):
             print ("<<< Serializer data: ", f"{serializer.validated_data}")
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print("\n\nSerializer Error(s): ", f"{serializer.errors}")
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_200_OK)
