@@ -19,11 +19,7 @@ def rabbit_holes_all_list(request):
 @permission_classes([AllowAny])
 # http://127.0.0.1:8000/api/rabbit_hole/1/
 def rabbit_hole_detail(request, pk):
-    
     rabbit_hole = get_object_or_404(Rabbit_Hole, pk=pk)
-    print(request.data)
-    
-    
     if request.method == 'GET':
         serializer = Rabbit_HoleSerializer(rabbit_hole)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -54,6 +50,7 @@ def rabbit_hole_detail(request, pk):
     
 @api_view(['GET', 'POST'])
 def rabbit_holes_list(request, project_id):
+    print("\n\nRequest Data: ", request.data)
     if request.method == "GET":
         rabbit_holes = Rabbit_Hole.objects.filter(project_id=project_id)
         serializer = Rabbit_HoleSerializer(rabbit_holes, many=True)

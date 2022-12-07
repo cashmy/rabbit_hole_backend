@@ -1,5 +1,6 @@
 from django.db import models
 from projects.models import Project
+from solutions.models import Solution
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
@@ -9,7 +10,10 @@ class Rabbit_Hole(models.Model):
     name = models.CharField(max_length=50, verbose_name=_('name'))
     description = models.TextField(verbose_name=_('description'), blank=True)
     rating = models.IntegerField(default=0, verbose_name=_('rating'))
-    solution = models.BooleanField(default=False, verbose_name=_('solution'))
+    solution = models.ForeignKey(Solution,  
+                                 null=True, 
+                                 blank=True,
+                                 on_delete=models.SET_NULL)
     completed = models.BooleanField(default=False, verbose_name=_('completed'))
     archived = models.BooleanField(default=False, verbose_name=_('archived'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
