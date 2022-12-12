@@ -54,4 +54,6 @@ class UserSerializer(serializers.ModelSerializer):
         # If adding new columns through the User model, add them in the fields
         # list as seen below
         fields = ('id', 'username', 'password', 'email',
-                  'first_name', 'last_name', 'middle_name', 'is_Staff')
+                  'first_name', 'last_name', 'middle_name', 'is_Staff',
+                  'nick_name', 'phone', 'plan', 'last_login', 'date_joined',
+                  'is_superuser', 'is_active')

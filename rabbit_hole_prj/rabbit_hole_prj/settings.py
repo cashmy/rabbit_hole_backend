@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'authentication.apps.AuthenticationConfig',
+    'authentication.apps.AuthenticationConfig',
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -157,7 +157,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=20),
 }
 
-# AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'authentication.User'
 
 try:
     from rabbit_hole_prj.local_settings import *

@@ -1,12 +1,13 @@
 from django.db import models
 from images.models import Image
+from authentication.models import User
 from django.utils.translation import gettext_lazy as _
 
 class Project(models.Model):
     name = models.CharField(max_length=50, verbose_name=_('name'))
     abbreviation = models.CharField(max_length=10, verbose_name=_('abbreviation'), blank=True)
     description = models.TextField(verbose_name=_('description'), blank=True)
-    user = models.ForeignKey('auth.User', 
+    user = models.ForeignKey(User, 
                              on_delete=models.CASCADE, 
                              blank=True, 
                              null=True)

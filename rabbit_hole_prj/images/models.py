@@ -1,4 +1,5 @@
 from django.db import models
+from authentication.models import User
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
@@ -14,7 +15,7 @@ class Image(models.Model):
     file_name = models.ImageField(
         _("File Name"), upload_to='', default="No_image.png", max_length=255)
     alt_text = models.CharField(_("Alt Text"), max_length=50, blank=True)
-    user = models.ForeignKey('auth.User',
+    user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              blank=True,
                              null=True)
