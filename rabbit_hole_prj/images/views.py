@@ -19,7 +19,6 @@ from django.conf import settings
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def images_list(request):
-    print("Request Data: ", request.data)
     if request.method == "GET":
         images = Image.objects.all()
         serializer = ImageSerializer(images, many=True)
@@ -36,8 +35,6 @@ def images_list(request):
 @api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
 @permission_classes([AllowAny])
 def image_detail(request, pk):
-    print("Request Data: ", request.data)
-    print("Id: ", pk)
     image = get_object_or_404(Image, pk=pk)
     print("Get object Successful")
     if request.method == 'GET':

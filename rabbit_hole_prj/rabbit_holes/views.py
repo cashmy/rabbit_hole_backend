@@ -50,7 +50,6 @@ def rabbit_hole_detail(request, pk):
     
 @api_view(['GET', 'POST'])
 def rabbit_holes_list(request, project_id):
-    print("\n\nRequest Data: ", request.data)
     if request.method == "GET":
         rabbit_holes = Rabbit_Hole.objects.filter(project_id=project_id)
         serializer = Rabbit_HoleSerializer(rabbit_holes, many=True)
